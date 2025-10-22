@@ -14,7 +14,57 @@ const productsContainer = document.getElementById('productsContainer');
 // Lấy phần tử hiển thị thông báo lỗi
 const errorMsg = document.getElementById('errorMsg');
 
-// ----- 2. HÀM TÌM KIẾM/LỌC SẢN PHẨM -----
+// ----- 2. KHỞI TẠO DANH SÁCH SẢN PHẨM -----
+/**
+ * Danh sách sản phẩm mặc định (dùng khi localStorage chưa có dữ liệu)
+ */
+const defaultProducts = [
+    {
+        name: 'Nhà Giả Kim',
+        description: 'Một cuốn tiểu thuyết triết lý đầy cảm hứng về hành trình theo đuổi ước mơ.',
+        price: 120000,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/vi/9/9c/Nh%C3%A0_gi%E1%BA%A3_kim_%28s%C3%A1ch%29.jpg'
+    },
+    {
+        name: 'Đắc Nhân Tâm',
+        description: 'Cuốn sách kỹ năng sống kinh điển giúp bạn xây dựng mối quan hệ và thành công hơn.',
+        price: 98000,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/vi/9/9c/Nh%C3%A0_gi%E1%BA%A3_kim_%28s%C3%A1ch%29.jpg'
+    },
+    {
+        name: 'Tuổi Trẻ Đáng Giá Bao Nhiêu',
+        description: 'Lời nhắn gửi chân thành về tuổi trẻ, khát vọng và hành trình tìm kiếm bản thân.',
+        price: 105000,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/vi/9/9c/Nh%C3%A0_gi%E1%BA%A3_kim_%28s%C3%A1ch%29.jpg'
+    }
+];
+
+// Khởi tạo danh sách sản phẩm từ localStorage hoặc mặc định
+let products = JSON.parse(localStorage.getItem('products')) || defaultProducts;
+
+// ----- 3. HÀM RENDER SẢN PHẨM -----
+/**
+ * Hiển thị danh sách sản phẩm lên giao diện
+ */
+function renderProducts() {
+    // Xóa nội dung hiện tại của container
+    productsContainer.innerHTML = '';
+    
+    // Duyệt qua danh sách sản phẩm và tạo phần tử HTML
+    products.forEach(product => {
+        const newProduct = document.createElement('article');
+        newProduct.className = 'product-item';
+        newProduct.innerHTML = `
+            <img src="${product.imageUrl}" alt="${product.name}">
+            <h3 class="product-name">${product.name}</h3>
+            <p>${product.description}</p>
+            <p class="price">${formatPrice(product.price)}₫</p>
+        `;
+        productsContainer.appendChild(newProduct);
+    });
+}
+
+// ----- 4. HÀM TÌM KIẾM/LỌC SẢN PHẨM -----
 /**
  * Hàm tìm kiếm sản phẩm theo tên
  * - Lấy từ khóa từ ô nhập
@@ -22,61 +72,39 @@ const errorMsg = document.getElementById('errorMsg');
  * - Hiển thị sản phẩm có tên chứa từ khóa, ẩn các sản phẩm khác
  */
 function searchProducts() {
-    // Lấy giá trị từ ô tìm kiếm và chuyển về chữ thường để so sánh không phân biệt hoa thường
     const keyword = searchInput.value.toLowerCase().trim();
-    
-    // Lấy tất cả các sản phẩm trên trang (lấy mới mỗi lần để bao gồm sản phẩm mới thêm)
     const products = document.querySelectorAll('.product-item');
     
-    // Duyệt qua từng sản phẩm
     products.forEach(function(product) {
-        // Lấy tên sản phẩm từ thẻ h3 có class "product-name"
         const productName = product.querySelector('.product-name');
-        
-        // Kiểm tra nếu phần tử tên sản phẩm tồn tại
         if (productName) {
-            // Lấy text của tên sản phẩm và chuyển về chữ thường
             const name = productName.textContent.toLowerCase();
-            
-            // Kiểm tra tên có chứa từ khóa tìm kiếm không
-            if (name.includes(keyword)) {
-                // Nếu có: hiển thị sản phẩm
-                product.style.display = '';
-            } else {
-                // Nếu không: ẩn sản phẩm
-                product.style.display = 'none';
-            }
+            product.style.display = name.includes(keyword) ? '' : 'none';
         }
     });
 }
 
-// ----- 3. HÀM HIỂN THỊ/ẨN FORM THÊM SẢN PHẨM -----
+// ----- 5. HÀM HIỂN THỊ/ẨN FORM THÊM SẢN PHẨM -----
 /**
  * Toggle (bật/tắt) hiển thị form thêm sản phẩm
- * - Nếu form đang ẩn (có class "hidden") thì hiện ra
- * - Nếu form đang hiện thì ẩn đi
  */
 function toggleAddProductForm() {
-    // Sử dụng classList.toggle để thêm/xóa class "hidden"
     addProductForm.classList.toggle('hidden');
-    
-    // Nếu form vừa được hiển thị, focus vào ô nhập tên sản phẩm và xóa thông báo lỗi
     if (!addProductForm.classList.contains('hidden')) {
         document.getElementById('productName').focus();
         errorMsg.style.display = 'none';
     }
 }
 
-// ----- 4. HÀM THÊM SẢN PHẨM MỚI -----
+// ----- 6. HÀM THÊM SẢN PHẨM MỚI -----
 /**
  * Xử lý khi submit form thêm sản phẩm
  * - Validate dữ liệu
- * - Tạo phần tử HTML mới cho sản phẩm
- * - Thêm vào đầu danh sách sản phẩm
- * - Reset form và ẩn đi
+ * - Thêm sản phẩm vào mảng
+ * - Lưu vào localStorage
+ * - Cập nhật giao diện
  */
 function addNewProduct(event) {
-    // Ngăn chặn hành vi mặc định của form (không reload trang)
     event.preventDefault();
     
     // Lấy giá trị từ các ô nhập
@@ -111,61 +139,50 @@ function addNewProduct(event) {
         return;
     }
     
-    // Tạo phần tử article mới cho sản phẩm
-    const newProduct = document.createElement('article');
-    newProduct.className = 'product-item'; // Gán class để áp dụng CSS
+    // Thêm sản phẩm mới vào đầu mảng
+    products.unshift({
+        name,
+        description,
+        price: Number(price),
+        imageUrl
+    });
     
-    // Tạo nội dung HTML cho sản phẩm mới
-    newProduct.innerHTML = `
-        <img src="${imageUrl}" alt="${name}">
-        <h3 class="product-name">${name}</h3>
-        <p>${description}</p>
-        <p class="price">${formatPrice(price)}₫</p>
-    `;
+    // Lưu vào localStorage
+    localStorage.setItem('products', JSON.stringify(products));
     
-    // Thêm sản phẩm mới vào đầu danh sách
-    productsContainer.prepend(newProduct);
+    // Cập nhật giao diện
+    renderProducts();
     
-    // Reset form
+    // Reset form và ẩn
     addProductForm.reset();
-    
-    // Ẩn form sau khi thêm thành công
     addProductForm.classList.add('hidden');
 }
 
-// ----- 5. HÀM HỖ TRỢ: FORMAT GIÁ -----
+// ----- 7. HÀM HỖ TRỢ: FORMAT GIÁ -----
 /**
- * Format số tiền theo định dạng Việt Nam (thêm dấu phẩy ngăn cách hàng nghìn)
- * Ví dụ: 120000 => 120,000
+ * Format số tiền theo định dạng Việt Nam
  */
 function formatPrice(price) {
-    // Chuyển sang số và format với dấu phân cách
     return parseInt(price).toLocaleString('vi-VN');
 }
 
-// ----- 6. HÀM HỦY FORM -----
+// ----- 8. HÀM HỦY FORM -----
 /**
  * Hủy thao tác thêm sản phẩm
- * - Reset form
- * - Ẩn form
- * - Xóa thông báo lỗi
  */
 function cancelAddProduct() {
-    // Reset tất cả các trường trong form
     addProductForm.reset();
-    // Ẩn form
     addProductForm.classList.add('hidden');
-    // Xóa thông báo lỗi
     errorMsg.style.display = 'none';
     errorMsg.textContent = '';
 }
 
-// ----- 7. GẮN SỰ KIỆN CHO CÁC PHẦN TỬ -----
+// ----- 9. GẮN SỰ KIỆN CHO CÁC PHẦN TỬ -----
 
 // Sự kiện click cho nút "Tìm"
 searchBtn.addEventListener('click', searchProducts);
 
-// Sự kiện keyup cho ô tìm kiếm (tìm kiếm khi gõ phím)
+// Sự kiện keyup cho ô tìm kiếm
 searchInput.addEventListener('keyup', function(event) {
     if (event.key === 'Enter') {
         searchProducts();
@@ -181,7 +198,7 @@ addProductForm.addEventListener('submit', addNewProduct);
 // Sự kiện click cho nút "Hủy"
 cancelBtn.addEventListener('click', cancelAddProduct);
 
-// ----- 8. TÍNH NĂNG BỔ SUNG: XÓA TẤT CẢ BỘ LỌC -----
+// ----- 10. TÍNH NĂNG BỔ SUNG: XÓA TẤT CẢ BỘ LỌC -----
 /**
  * Thêm nút "Xóa bộ lọc" để hiển thị lại tất cả sản phẩm
  */
@@ -194,12 +211,9 @@ clearFilterBtn.className = 'clear-filter-btn';
 const searchBox = document.querySelector('.search-box');
 searchBox.appendChild(clearFilterBtn);
 
-// Hàm xóa bộ lọc - hiển thị lại tất cả sản phẩm
+// Hàm xóa bộ lọc
 function clearFilter() {
-    // Xóa nội dung ô tìm kiếm
     searchInput.value = '';
-    
-    // Hiển thị lại tất cả sản phẩm
     const products = document.querySelectorAll('.product-item');
     products.forEach(function(product) {
         product.style.display = '';
@@ -208,3 +222,17 @@ function clearFilter() {
 
 // Gắn sự kiện cho nút "Xóa bộ lọc"
 clearFilterBtn.addEventListener('click', clearFilter);
+
+// ----- 11. KHỞI TẠO KHI TRANG TẢI -----
+/**
+ * Khi trang tải, render danh sách sản phẩm từ localStorage
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    // Nếu localStorage trống, lưu danh sách mặc định
+    if (!localStorage.getItem('products')) {
+        localStorage.setItem('products', JSON.stringify(defaultProducts));
+    }
+    // Render sản phẩm
+    renderProducts();
+});
+

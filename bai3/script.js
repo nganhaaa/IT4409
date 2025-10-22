@@ -199,9 +199,3 @@ function clearFilter() {
 clearFilterBtn.addEventListener('click', clearFilter);
 
 
-// ----- 9. CONSOLE LOG THÔNG BÁO -----
-console.log('✅ JavaScript đã được tải và sẵn sàng!');
-console.log('📚 Các chức năng có sẵn:');
-console.log('   - Tìm kiếm sản phẩm');
-console.log('   - Thêm sản phẩm mới');
-console.log('   - Hiển thị/Ẩn form thêm sản phẩm');
