@@ -1,0 +1,120 @@
+<!-- Xác định loại tài liệu là HTML5 -->
+<!DOCTYPE html>
+
+<!-- Thẻ gốc bao bọc toàn bộ trang web -->
+<html lang="vi"> <!-- Thuộc tính lang xác định ngôn ngữ là tiếng Việt -->
+
+<head>
+    <!-- Khai báo bảng mã ký tự để hiển thị tiếng Việt đúng -->
+    <meta charset="UTF-8">
+
+    <!-- Giúp trang hiển thị đúng trên các thiết bị di động (responsive) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Tiêu đề của trang hiển thị trên tab trình duyệt -->
+    <title>Nhà sách AAA</title>
+
+    <!-- Liên kết file CSS ngoài để trang trí giao diện -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Khu vực đầu trang -->
+    <header>
+        <!-- Tiêu đề chính của website -->
+        <h1>Nhà sách AAA</h1>
+
+        <!-- Thanh điều hướng -->
+        <nav>
+            <!-- Danh sách menu (unordered list) -->
+            <ul>
+                <!-- Mỗi mục trong menu -->
+                <li><a href="#">Trang chủ</a></li>
+                <li><a href="#">Sản phẩm</a></li>
+                <li><a href="#">Liên hệ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Nội dung chính của trang -->
+    <main>
+
+        <!-- Phần giới thiệu -->
+        <section>
+            <h2>Giới thiệu</h2>
+            <p>
+                Chào mừng bạn đến với 
+                <!-- <strong> làm nổi bật chữ (in đậm, mang ý nghĩa nhấn mạnh) -->
+                <strong>Nhà sách AAA</strong> – nơi mang đến những cuốn sách hay và truyền cảm hứng cho mọi lứa tuổi!
+            </p>
+        </section>
+
+        <!-- Danh sách sản phẩm -->
+        <section id="product-list">
+            <h2>Sản phẩm nổi bật</h2>
+
+            <!-- Mỗi sản phẩm là một <article> (nội dung độc lập, có thể tách riêng) -->
+            <article class="product-item">
+                <!-- Hình ảnh sản phẩm -->
+                <img 
+                    src="https://upload.wikimedia.org/wikipedia/vi/9/9c/Nh%C3%A0_gi%E1%BA%A3_kim_%28s%C3%A1ch%29.jpg" 
+                    alt="Sách 1"> <!-- Thuộc tính alt mô tả hình ảnh, dùng khi ảnh lỗi hoặc hỗ trợ đọc màn hình -->
+
+                <!-- Tên sản phẩm -->
+                <h3>Nhà Giả Kim</h3>
+
+                <!-- Mô tả sản phẩm -->
+                <p>Một cuốn tiểu thuyết triết lý đầy cảm hứng về hành trình theo đuổi ước mơ.</p>
+
+                <!-- Giá sản phẩm -->
+                <p class="price">120.000₫</p>
+            </article>
+
+            <!-- Sản phẩm 2 -->
+            <article class="product-item">
+                <img src="https://upload.wikimedia.org/wikipedia/vi/9/9c/Nh%C3%A0_gi%E1%BA%A3_kim_%28s%C3%A1ch%29.jpg" alt="Sách 2">
+                <h3>Đắc Nhân Tâm</h3>
+                <p>Cuốn sách kỹ năng sống kinh điển giúp bạn xây dựng mối quan hệ và thành công hơn.</p>
+                <p class="price">98.000₫</p>
+            </article>
+
+            <!-- Sản phẩm 3 -->
+            <article class="product-item">
+                <img src="https://upload.wikimedia.org/wikipedia/vi/9/9c/Nh%C3%A0_gi%E1%BA%A3_kim_%28s%C3%A1ch%29.jpg" alt="Sách 3">
+                <h3>Tuổi Trẻ Đáng Giá Bao Nhiêu</h3>
+                <p>Lời nhắn gửi chân thành về tuổi trẻ, khát vọng và hành trình tìm kiếm bản thân.</p>
+                <p class="price">105.000₫</p>
+            </article>
+        </section>
+
+        <!-- Phần liên hệ -->
+        <section>
+            <h2>Liên hệ với chúng tôi</h2>
+
+            <!-- Biểu mẫu liên hệ -->
+            <form action="#" method="post">
+                <!-- label liên kết với input thông qua thuộc tính for/id -->
+                <label for="name">Họ và tên:</label>
+                <input type="text" id="name" name="name" placeholder="Nhập tên của bạn" required>
+
+                <label for="email">Email:</label>
+                <!-- type="email" giúp trình duyệt tự kiểm tra định dạng email -->
+                <input type="email" id="email" name="email" placeholder="Nhập email" required>
+
+                <label for="message">Nội dung:</label>
+                <!-- textarea cho phép nhập nhiều dòng -->
+                <textarea id="message" name="message" rows="4" placeholder="Nhập nội dung cần liên hệ..." required></textarea>
+
+                <!-- Nút gửi form -->
+                <button type="submit">Gửi</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Phần chân trang -->
+    <footer>
+        <!-- &copy; là ký tự bản quyền -->
+        <p>&copy; 2025 Nhà sách AAA | Địa chỉ: 123 Đường Sách, Hà Nội</p>
+    </footer>
+</body>
+</html>

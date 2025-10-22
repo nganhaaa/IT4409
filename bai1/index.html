@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhà sách AAA</title>
+</head>
+<body>
+    <!-- Phần đầu trang (Header) -->
+    <header>
+        <h1>Nhà sách AAA</h1>
+
+        <!-- Thanh điều hướng (Navigation bar) -->
+        <nav>
+            <ul>
+                <li><a href="#">Trang chủ</a></li>
+                <li><a href="#">Sản phẩm</a></li>
+                <li><a href="#">Liên hệ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Nội dung chính của trang -->
+    <main>
+        <!-- Phần giới thiệu -->
+        <section>
+            <h2>Giới thiệu</h2>
+            <p>
+                Chào mừng bạn đến với <strong>Nhà sách AAA</strong> – 
+                nơi mang đến những cuốn sách hay và truyền cảm hứng cho mọi lứa tuổi!
+            </p>
+        </section>
+
+        <!-- Phần sản phẩm nổi bật -->
+        <section>
+            <h2>Sản phẩm nổi bật</h2>
+
+            <!-- Mỗi cuốn sách được thể hiện bằng một thẻ <article> -->
+            <article>
+                <!-- Ảnh bìa sách -->
+                <img src="https://upload.wikimedia.org/wikipedia/vi/9/9c/Nh%C3%A0_gi%E1%BA%A3_kim_%28s%C3%A1ch%29.jpg" alt="Sách 1">
+                <!-- Tên sách -->
+                <h3>Nhà Giả Kim</h3>
+                <!-- Mô tả ngắn -->
+                <p>Một cuốn tiểu thuyết triết lý đầy cảm hứng về hành trình theo đuổi ước mơ.</p>
+                <!-- Giá sách -->
+                <p>120.000₫</p>
+            </article>
+
+            <article>
+                <img src="https://upload.wikimedia.org/wikipedia/vi/9/9c/Nh%C3%A0_gi%E1%BA%A3_kim_%28s%C3%A1ch%29.jpg" alt="Sách 2">
+                <h3>Đắc Nhân Tâm</h3>
+                <p>Cuốn sách kỹ năng sống kinh điển giúp bạn xây dựng mối quan hệ và thành công hơn.</p>
+                <p>98.000₫</p>
+            </article>
+
+            <article>
+                <img src="https://upload.wikimedia.org/wikipedia/vi/9/9c/Nh%C3%A0_gi%E1%BA%A3_kim_%28s%C3%A1ch%29.jpg" alt="Sách 3">
+                <h3>Tuổi Trẻ Đáng Giá Bao Nhiêu</h3>
+                <p>Lời nhắn gửi chân thành về tuổi trẻ, khát vọng và hành trình tìm kiếm bản thân.</p>
+                <p>105.000₫</p>
+            </article>
+        </section>
+
+        <!-- Phần liên hệ -->
+        <section>
+            <h2>Liên hệ với chúng tôi</h2>
+
+            <!-- Biểu mẫu liên hệ (Form) -->
+            <form action="#" method="post">
+                <!-- Trường nhập họ tên -->
+                <label for="name">Họ và tên:</label>
+                <input type="text" id="name" name="name" placeholder="Nhập tên của bạn" required>
+
+                <!-- Trường nhập email -->
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Nhập email" required>
+
+                <!-- Trường nhập nội dung liên hệ -->
+                <label for="message">Nội dung:</label>
+                <textarea id="message" name="message" rows="4" placeholder="Nhập nội dung cần liên hệ..." required></textarea>
+
+                <!-- Nút gửi form -->
+                <button type="submit">Gửi</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Phần chân trang (Footer) -->
+    <footer>
+        <p>&copy; 2025 Nhà sách AAA | Địa chỉ: Hà Nội, Hà Nội</p>
+    </footer>
+</body>
+</html>
